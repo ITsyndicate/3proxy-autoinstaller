@@ -99,8 +99,8 @@ fi
 #Creating IP_Pull.txt file
 echo -e "$userlogin;$userpassword;$serverport\n$serveripschecked" > /IP_Pull.txt
 #Configuring ssmtp and sending mail with IP List
-echo -e "root=root@localhost\nmailhub=smtp.gmail.com:587\nUseSTARTTLS=YES\nAuthUser=$mailuser\nAuthPass=$mailpass\nFromLineOverride=YES\nTLS_CA_File=/etc/pki/tls/certs/ca-bundle.crt" > /etc/ssmtp/ssmtp.conf
-/bin/mail -s "IP List" $usermail < /IP_Pull.txt
+#echo -e "root=root@localhost\nmailhub=smtp.gmail.com:587\nUseSTARTTLS=YES\nAuthUser=$mailuser\nAuthPass=$mailpass\nFromLineOverride=YES\nTLS_CA_File=/etc/pki/tls/certs/ca-bundle.crt" > /etc/ssmtp/ssmtp.conf
+#/bin/mail -s "IP List" $usermail < /IP_Pull.txt
 
 #Creating 3proxy.cfg
 if [ "$socksenabled" = "yes" ]; then
@@ -116,6 +116,11 @@ else
 fi
 #Adding firewall rules
 iptables -I INPUT 1 -p tcp --dport $serverport -j ACCEPT
+
+#Change this for grant access only from 1.2.3.4/24
+#iptables -A INPUT --src 1.2.3.4/24 -p tcp --dport $serverport -j ACCEPT
+#iptables -A INPUT -p tcp --dport $serverport -j REJECT
+
 /sbin/service iptables save
 #Starting 3proxy
 /sbin/service 3proxy restart
