@@ -104,12 +104,12 @@ echo -e "$userlogin;$userpassword;$serverport\n$serveripschecked" > /IP_Pull.txt
 
 #Creating 3proxy.cfg
 if [ "$socksenabled" = "yes" ]; then
-    echo -e "daemon\nauth iponly strong\nusers $userlogin:CL:$userpassword\nflush\nallow $userlogin $allow\nnserver 8.8.8.8\nnscache 65536\ntimeouts 1 5 30 60 180 1800 15 60\nsetgid $NGID\nsetuid $NUID" > /etc/3p$
+    echo -e "daemon\nauth iponly strong\nusers $userlogin:CL:$userpassword\nflush\nallow $userlogin $allow\nnserver 8.8.8.8\nnscache 65536\ntimeouts 1 5 30 60 180 1800 15 60\nsetgid $NGID\nsetuid $NUID" > /etc/3proxy.cfg
     for daemonips in $serveripschecked ; do
             echo -e "socks -n -a -p$serverport -i$daemonips -e$daemonips" >> /etc/3proxy.cfg
         done
 else
-    echo -e "daemon\nauth iponly strong\nusers $userlogin:CL:$userpassword\nflush\nallow $userlogin $allow\nnserver 8.8.8.8\nnscache 65536\ntimeouts 1 5 30 60 180 1800 15 60\nsetgid $NGID\nsetuid $NUID" > /etc/3p$
+    echo -e "daemon\nauth iponly strong\nusers $userlogin:CL:$userpassword\nflush\nallow $userlogin $allow\nnserver 8.8.8.8\nnscache 65536\ntimeouts 1 5 30 60 180 1800 15 60\nsetgid $NGID\nsetuid $NUID" > /etc/3proxy.cfg
     for daemonips in $serveripschecked ; do
             echo -e "proxy -n -a -p$serverport -i$daemonips -e$daemonips" >> /etc/3proxy.cfg
         done
